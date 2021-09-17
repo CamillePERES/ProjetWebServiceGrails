@@ -1,4 +1,4 @@
-package projetapi
+package projetapigrails
 
 class BootStrap {
 
