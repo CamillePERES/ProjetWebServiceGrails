@@ -6,7 +6,6 @@ class Advert {
     String description;
     Float price;
 
-
     static hasMany = [pictures: Picture];
     static belongsTo = [user:User];
     static constraints = {

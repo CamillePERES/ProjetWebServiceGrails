@@ -78,4 +78,5 @@ class PictureController {
 
         render status: NO_CONTENT
     }
+
 }

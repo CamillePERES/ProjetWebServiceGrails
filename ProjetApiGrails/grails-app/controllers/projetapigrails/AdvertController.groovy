@@ -8,7 +8,7 @@ import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
 
 @ReadOnly
-@Secured(value = ["hasRole('ROLE_ADMIN')"])
+@Secured(value=["hasRole('ROLE_ADMIN')"])
 class AdvertController {
 
     AdvertService advertService
@@ -16,13 +16,13 @@ class AdvertController {
     static responseFormats = ['json', 'xml']
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
-    @Secured(value = ["hasRole('ROLE_MODERATOR')"])
+    @Secured(['ROLE_ADMIN', 'ROLE_MODERATOR'])
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond advertService.list(params), model:[advertCount: advertService.count()]
+        respond Advert.list(params), model:[advertCount: Advert.count()]
     }
 
-    @Secured(value = ["hasRole('ROLE_MODERATOR')"])
+    @Secured(['ROLE_ADMIN', 'ROLE_MODERATOR'])
     def show(Long id) {
         respond advertService.getAdvertById(id)
     }
@@ -50,7 +50,7 @@ class AdvertController {
     }
 
     @Transactional
-    @Secured(value = ["hasRole('ROLE_MODERATOR')"])
+    @Secured(['ROLE_ADMIN', 'ROLE_MODERATOR'])
     def update(Advert advert) {
         if (advert == null) {
             render status: NOT_FOUND

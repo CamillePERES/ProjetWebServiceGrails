@@ -2,8 +2,8 @@ package projetapigrails
 
 import grails.gorm.transactions.ReadOnly
 import grails.gorm.transactions.Transactional
-import grails.plugin.springsecurity.annotation.Secured
 import grails.validation.ValidationException
+import org.springframework.security.access.annotation.Secured
 
 import static org.springframework.http.HttpStatus.*
 
@@ -23,6 +23,10 @@ class UserController {
 
     def show(Long id) {
         respond userService.getUserById(id)
+    }
+
+    def showUserLogged(){
+        respond userService.getLoggedInstanceUser()
     }
 
     @Transactional
@@ -61,6 +65,28 @@ class UserController {
 
         try {
             userService.updateUser(user)
+        } catch (ValidationException e) {
+            respond user.errors
+            return
+        }
+
+        respond user, [status: OK, view:"show"]
+    }
+
+    @Transactional
+    def updateUserPassword(User user) {
+        if (user == null) {
+            render status: NOT_FOUND
+            return
+        }
+        if (user.hasErrors()) {
+            transactionStatus.setRollbackOnly()
+            respond user.errors
+            return
+        }
+
+        try {
+            userService.updateUserPassword(user)
         } catch (ValidationException e) {
             respond user.errors
             return
