@@ -18,36 +18,41 @@ class PictureController {
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond pictureService.list(params), model:[pictureCount: pictureService.count()]
+        respond Picture.list(params), model:[pictureCount: Picture.count()]
     }
 
     def show(Long id) {
-        respond pictureService.getPictureById(id)
+        Picture p = pictureService.getPictureById(id)
+        //render : renvoie un resultat
+        //ici render renvoie les bytes d'un fichier (ici une image) et son extension (contenttype)
+        render file: p.bytes, contentType: p.contentType
     }
 
     @Transactional
-    def save(Picture picture) {
-        if (picture == null) {
+    def save(AdvertPictureUpload file) {
+        if (file == null) {
             render status: NOT_FOUND
             return
         }
-        if (picture.hasErrors()) {
+        //hasError = verifie les contraintes de la classe AdvertPictureUpload
+        if (file.hasErrors()) {
             transactionStatus.setRollbackOnly()
-            respond picture.errors
+            respond file.errors
             return
         }
 
         try {
-            pictureService.addPictureToAdvert(picture)
+            pictureService.addPictureToAdvert(file)
         } catch (ValidationException e) {
-            respond picture.errors
+            respond file.errors
             return
         }
 
-        respond picture, [status: CREATED, view:"show"]
+        //code statut HTTP (201 : created)
+        render status: CREATED
     }
 
-    @Transactional
+    /*@Transactional
     def update(Picture picture) {
         if (picture == null) {
             render status: NOT_FOUND
@@ -67,7 +72,7 @@ class PictureController {
         }
 
         respond picture, [status: OK, view:"show"]
-    }
+    }*/
 
     @Transactional
     def delete(Long id) {

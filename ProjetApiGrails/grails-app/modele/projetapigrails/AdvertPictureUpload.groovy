@@ -3,15 +3,14 @@ package projetapigrails
 import grails.validation.Validateable
 import org.springframework.web.multipart.MultipartFile
 
-class FeaturedImageCommand implements Validateable{
+//classe qui permet de contenir un fichier
+class AdvertPictureUpload implements Validateable{
 
-    MultipartFile featuredImageFile
-    Long id
-    Integer version
+    MultipartFile featuredImageFile //faire transiter le fichier
+    Long idAdvert //id de l'annonce
 
     static constraints = {
-        id nullable: false
-        version nullable: false
+        idAdvert nullable: false
         featuredImageFile  validator: { val, obj ->
             if ( val == null ) {
                 return false

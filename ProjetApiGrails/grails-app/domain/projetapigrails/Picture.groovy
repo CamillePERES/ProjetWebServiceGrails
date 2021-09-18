@@ -3,18 +3,18 @@ package projetapigrails
 class Picture {
 
     String filename;
-    byte[] stockByte;
+    byte[] bytes;
     String contentType;
 
     static belongsTo = [advert: Advert];
     static constraints = {
-        stockByte nullable: true
+        bytes nullable: true
         contentType nullable: true
         filename nullable: false, blank: false
     }
 
     static mapping = {
-        stockByte column: 'featured_image_bytes', sqlType: 'longblob'
+        bytes column: 'featured_image_bytes', sqlType: 'longblob'
     }
 
 }

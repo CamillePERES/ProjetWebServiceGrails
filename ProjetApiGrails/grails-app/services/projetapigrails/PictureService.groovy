@@ -19,12 +19,23 @@ class PictureService {
         }
     }
 
-    //pour mettre l'image dans son annonce (iimage belongs to annonce), je recup l'annonce en base avec son id et je lui ajoute l'image dans l'annonce recuperee
-    def addPictureToAdvert(Picture pic) {
+    /***
+     * Prend un objet qui contient un fichier et la transforme en une image d'annonce et l'ajoute à cette même annonce
+     * via l'id de l'annonce
+     * @param pic
+     * @return
+     */
+    def addPictureToAdvert(AdvertPictureUpload pic) {
         //this.addPictureToAdvertById(pic,pic.advert.id);
-        Advert ad = advertService.getAdvertById(pic.advert.id);
+        Advert ad = advertService.getAdvertById(pic.idAdvert);
         if (ad != null) {
-            ad.addToPictures(pic);
+            //Constructeur Picture
+            Picture picture = new Picture (
+                    filename: pic.featuredImageFile.getOriginalFilename(),
+                    bytes: pic.featuredImageFile.getBytes(),
+                    contentType: pic.featuredImageFile.getContentType()
+            )
+            ad.addToPictures(picture);
             ad.save();
         }
     }

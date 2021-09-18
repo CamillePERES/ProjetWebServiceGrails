@@ -13,6 +13,7 @@ class UrlMappings {
         //URL custom
         put "/api/user/updateUserPassword" (controller:'User',action:"updateUserPassword")
         get "/api/user/showUserLogged" (controller:'User',action:"showUserLogged")
+        delete "/api/userRole/deleteRoleForUser/$idUser/$idRole" (controller:'UserRole',action:'deleteRoleForUser')
 
         //URL error
         "/"(controller: 'application', action:'index')
