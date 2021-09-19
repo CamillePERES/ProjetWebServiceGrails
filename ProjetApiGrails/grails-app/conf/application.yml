@@ -72,6 +72,8 @@ grails:
             maxRequestSize: 26214400
     converters:
         encoding: UTF-8
+    cors:
+        enabled: true
 
 ---
 hibernate:
