@@ -6,7 +6,13 @@
     expand
   >
     <form
-      class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto"
+      class="
+        navbar-search navbar-search-dark
+        form-inline
+        mr-3
+        d-none d-md-flex
+        ml-lg-auto
+      "
     >
       <div class="form-group mb-0">
         <base-input
@@ -24,7 +30,7 @@
           <template v-slot:title>
             <div class="media align-items-center">
               <div class="media-body ml-2 d-none d-lg-block">
-                <span class="mb-0 text-sm font-weight-bold">Admin</span>
+                <span class="mb-0 text-sm font-weight-bold">{{username}}</span>
               </div>
             </div>
           </template>
@@ -60,9 +66,17 @@
 
 
 <script>
-import UserService from "../services/UserService";
+//import UserService from "../services/UserService";
+import {mapState, mapActions} from "vuex"
+//import userStore from '../store/userStore'
 
 export default {
+  computed:{
+    ...mapState({
+        username: "username",
+        password: "password"
+    })
+  },
   data() {
     return {
       activeNotifications: false,
@@ -80,13 +94,14 @@ export default {
     toggleMenu() {
       this.showMenu = !this.showMenu;
     },
-    logout(){
+    /*logout(){
       UserService.logout();
       console.log("logout");
       this.$router.push('/login');
-    },
-
-  },
+    }*/
+    ...mapActions(["userLogged"]),
+    ...mapActions(["logout"]) 
+  }
 };
 
 

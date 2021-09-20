@@ -30,7 +30,7 @@ UserService.isAuthentified = () => {
 
 }
 
-UserService.logout = () =>{
+UserService.logout = () => {
   return localStorage.removeItem('user-token')
 }
 
