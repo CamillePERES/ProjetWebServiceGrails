@@ -12,7 +12,7 @@ const url = "http://localhost:8080";
 
 UserService.login = (username, password) => {
 
-  axios.post(url+"/api/login", { username: username, password: password })
+  axios.post(url + "/api/login", { username: username, password: password })
     .then(response => {
       console.log(response);
       const token = response.data.access_token;
@@ -21,6 +21,17 @@ UserService.login = (username, password) => {
     .catch(error => {
       console.log(error)
     })
+}
+
+UserService.isAuthentified = () => {
+  var auth = localStorage.getItem('user-token');
+  console.log(auth);
+  return auth != undefined && auth != null;
+
+}
+
+UserService.logout = () =>{
+  return localStorage.removeItem('user-token')
 }
 
 UserService.list = () => {
