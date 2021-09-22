@@ -64,8 +64,12 @@ export default {
   methods: {
     login(){
       console.log(this.model.email)
-      userService.login(this.model.email, this.model.password);
-      this.$router.push('/adverts');
+      userService.login(this.model.email, this.model.password, isOk => {
+        if (isOk){
+          this.$router.push('/adverts');
+        }
+      });
+      
     }
 
   }

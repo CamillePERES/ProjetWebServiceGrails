@@ -16,7 +16,7 @@ AdvertService.getAllAdvert = () => {
 }
 
 AdvertService.getAdvert = (id) => {
-    return axios.post(url + "/" + id)
+    return axios.get(url + "/" + id)
 }
 
 export default AdvertService;

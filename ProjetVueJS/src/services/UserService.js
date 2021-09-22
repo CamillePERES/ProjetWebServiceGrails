@@ -1,37 +1,67 @@
 import axios from 'axios';
+import { BehaviorSubject } from 'rxjs'
 
 const endpoint = '/user';
-
-/*const config = {
-  headers: { Authorization: `Bearer ${token}` }
-};*/
+const url = "http://localhost:8080/api";
 
 const UserService = {}
 
-const url = "http://localhost:8080";
+const store = {
+  profile: undefined
+}
+const profileSubject = new BehaviorSubject(store.profile);
 
-UserService.login = (username, password) => {
 
-  axios.post(url + "/api/login", { username: username, password: password })
+UserService.login = (username, password, callback) => {
+
+  axios.post(url + "/login", { username: username, password: password })
     .then(response => {
       console.log(response);
       const token = response.data.access_token;
       localStorage.setItem('user-token', token);
+      UserService.userLogged();
+      callback(true);
     })
     .catch(error => {
       console.log(error)
+      callback(false);
     })
 }
 
 UserService.isAuthentified = () => {
   var auth = localStorage.getItem('user-token');
   console.log(auth);
-  return auth != undefined && auth != null;
+  var isAuth = auth !== undefined && auth !== null;
+  if (isAuth && (store.profile === null || store.profile === undefined)) {
+    UserService.userLogged();
+  }
+  return isAuth;
+}
 
+UserService.userLogged = () => {
+
+  axios.get(url + "/user/showUserLogged")
+    .then(response => {
+      console.log(response);
+      store.profile = response.data;
+      profileSubject.next(store.profile)
+    })
+}
+
+UserService.getProfile = () => {
+  return profileSubject.asObservable();
 }
 
 UserService.logout = () => {
   return localStorage.removeItem('user-token')
+}
+
+UserService.getAllUsers = () => {
+  return axios.get(url + "/user");
+}
+
+UserService.getUser = (id) => {
+  return axios.get(url + "/user/" + id)
 }
 
 UserService.list = () => {

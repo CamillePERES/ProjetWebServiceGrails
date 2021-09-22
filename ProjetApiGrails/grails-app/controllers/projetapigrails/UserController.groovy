@@ -17,7 +17,11 @@ class UserController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
+        //nbr d'utilisateurs au max je veux recup
+        //params.max = max < 0 ? 0 : max;
         params.max = Math.min(max ?: 10, 100)
+        //la position dans le tableau (offset(10), je recup de l'user 10 à 20)
+        //params.offset = offset < 0 ? 0 : offset;
         respond User.list(params), model:[userCount: User.count()]
     }
 

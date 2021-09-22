@@ -30,7 +30,7 @@
           <template v-slot:title>
             <div class="media align-items-center">
               <div class="media-body ml-2 d-none d-lg-block">
-                <span class="mb-0 text-sm font-weight-bold">{{username}}</span>
+                <span class="mb-0 text-sm font-weight-bold">{{getUsername()}}</span>
               </div>
             </div>
           </template>
@@ -54,9 +54,9 @@
             <span>Support</span>
           </router-link>-->
           <div class="dropdown-divider"></div>
-          <div class="dropdown-item">
+          <div v-on:click="logout()" class="dropdown-item">
             <i class="ni ni-user-run"></i>
-            <span @click="logout">Logout</span>
+            <span>Logout</span>
           </div>
         </base-dropdown>
       </li>
@@ -66,23 +66,19 @@
 
 
 <script>
-//import UserService from "../services/UserService";
-import {mapState, mapActions} from "vuex"
-//import userStore from '../store/userStore'
+import UserService from "../services/UserService";
 
 export default {
-  computed:{
-    ...mapState({
-        username: "username",
-        password: "password"
-    })
-  },
   data() {
     return {
       activeNotifications: false,
       showMenu: false,
       searchQuery: "",
+      profile:{}
     };
+  },
+  created(){
+    this.subscribeProfile();
   },
   methods: {
     toggleSidebar() {
@@ -94,15 +90,30 @@ export default {
     toggleMenu() {
       this.showMenu = !this.showMenu;
     },
-    /*logout(){
+    logout(){
       UserService.logout();
       console.log("logout");
       this.$router.push('/login');
-    }*/
-    ...mapActions(["userLogged"]),
-    ...mapActions(["logout"]) 
-  }
-};
-
-
+    },
+    subscribeProfile(){
+      console.log("Subscribed")
+      this.subscription = UserService.getProfile().subscribe(pr => {
+          if(pr !== undefined && pr !== null){
+            this.profile = pr;
+            console.log("Received a profil")
+          }
+          else{
+            console.log("Nothing")
+          }
+      })
+    },
+     beforeDestroy () {
+        this.subscription.unsubscribe();
+    },
+    getUsername(){
+      var string = this.profile.username;
+      return  string !== undefined ?  string.charAt(0).toUpperCase() + string.slice(1):'';
+    }
+  },
+};      
 </script>

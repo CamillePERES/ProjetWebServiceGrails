@@ -4,11 +4,12 @@ import DashboardLayout from "@/layout/DashboardLayout";
 import AuthLayout from "@/layout/AuthLayout";
 
 import Dashboard from "../views/Dashboard.vue";
-import Icons from "../views/Icons.vue";
-import Maps from "../views/Maps.vue";
+//import Icons from "../views/Icons.vue";
+//import Maps from "../views/Maps.vue";
 import Profile from "../views/UserProfile.vue";
 import Tables from "../views/Tables.vue";
 import Adverts from "../views/Adverts.vue";
+import Users from "../views/Users.vue";
 import UserService from "../services/UserService";
 
 
@@ -34,16 +35,16 @@ const routes = [
         name: "dashboard",
         components: { default: Dashboard },
       },
-      {
+      /*{
         path: "/icons",
         name: "icons",
         components: { default: Icons },
-      },
-      {
+      },*/
+      /*{
         path: "/maps",
         name: "maps",
         components: { default: Maps },
-      },
+      },*/
       {
         path: "/profile",
         name: "profile",
@@ -58,6 +59,11 @@ const routes = [
         path: "/adverts",
         name: "adverts",
         components: { default: Adverts },
+      }, 
+      {
+        path: "/users",
+        name: "users",
+        components: { default: Users },
       }
     ],
   },
