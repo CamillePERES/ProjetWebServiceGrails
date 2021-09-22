@@ -21,8 +21,7 @@ import router from "./router";
 import ArgonDashboard from "./plugins/argon-dashboard";
 import "element-plus/lib/theme-chalk/index.css";
 import axios from 'axios';
-import store from './store'
-
+import Toaster from '@meforma/vue-toaster';
 
 // Add a request interceptor
 axios.interceptors.request.use(function (config) {
@@ -37,7 +36,7 @@ axios.interceptors.request.use(function (config) {
     return Promise.reject(error);
 });
 
-const appInstance = createApp(App).use(store);
+const appInstance = createApp(App).use(Toaster);
 appInstance.use(router);
 appInstance.use(ArgonDashboard);
 appInstance.mount("#app");

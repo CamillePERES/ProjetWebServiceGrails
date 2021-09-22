@@ -105,6 +105,7 @@ export default {
   },
   methods: {
     handleClick(evt) {
+      evt.stopImmediatePropagation();
       this.$emit("click", evt);
     },
   },

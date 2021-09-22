@@ -64,6 +64,10 @@ UserService.getUser = (id) => {
   return axios.get(url + "/user/" + id)
 }
 
+UserService.createUser = (model) => {
+  return axios.post(url+"/user", model)
+}
+
 UserService.list = () => {
   return axios.get(endpoint);
 }
