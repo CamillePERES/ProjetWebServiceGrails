@@ -68,6 +68,14 @@ UserService.createUser = (model) => {
   return axios.post(url+"/user", model)
 }
 
+UserService.deleteUser = (id) => {
+  return axios.delete(url+"/user/"+ id)
+}
+
+UserService.getAdvertPerUser = (id) => {
+  return axios.get(url+"/advert/user/"+id)
+}
+
 UserService.list = () => {
   return axios.get(endpoint);
 }

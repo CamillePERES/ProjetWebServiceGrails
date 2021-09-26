@@ -81,4 +81,8 @@ class AdvertController {
 
         render status: NO_CONTENT
     }
+
+    def advertPerUser(Long id) {
+        respond advertService.getAdvertsByUserId(id);
+    }
 }

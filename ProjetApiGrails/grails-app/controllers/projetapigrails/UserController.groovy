@@ -22,11 +22,14 @@ class UserController {
         params.max = Math.min(max ?: 10, 100)
         //la position dans le tableau (offset(10), je recup de l'user 10 à 20)
         //params.offset = offset < 0 ? 0 : offset;
-        respond User.list(params), model:[userCount: User.count()]
+        List<User> users = User.list(params);
+        respond users, model:[userCount: User.count()]
     }
 
     def show(Long id) {
-        respond userService.getUserById(id)
+        User u = userService.getUserById(id);
+        //respond userService.getUserById(id);
+        respond u;
     }
 
     def showUserLogged(){
@@ -101,11 +104,12 @@ class UserController {
 
     @Transactional
     def delete(Long id) {
-        if (id == null || userService.deleteUserById(id) == null) {
+        if (id == null) {
             render status: NOT_FOUND
             return
         }
+        userService.deleteUserById(id);
+        render status: NO_CONTENT;
 
-        render status: NO_CONTENT
     }
 }

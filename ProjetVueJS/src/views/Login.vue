@@ -28,7 +28,7 @@
               <span class="text-muted">Remember me</span>
             </base-checkbox>
             <div class="text-center">
-              <base-button v-on:click="login" type="primary" class="my-4" >Sign in</base-button>
+              <base-button v-on:click="login" type="primary" class="my-4">Sign in</base-button>
             </div>
           </form>
         </div>
@@ -46,6 +46,7 @@
     </div>
   </div>
 </template>
+
 <script>
 
 import userService from '../services/UserService';
@@ -69,7 +70,6 @@ export default {
           this.$router.push('/adverts');
         }
       });
-      
     }
 
   }

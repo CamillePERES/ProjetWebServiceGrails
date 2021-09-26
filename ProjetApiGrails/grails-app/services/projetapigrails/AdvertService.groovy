@@ -55,4 +55,10 @@ class AdvertService {
         return advert;
     }
 
+    def getAdvertsByUserId(Long idUser){
+        User u = userService.getUserById(idUser);
+        return Advert.findAllByUser(u);
+
+    }
+
 }
