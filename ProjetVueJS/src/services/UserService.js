@@ -57,7 +57,7 @@ UserService.logout = () => {
 }
 
 UserService.getAllUsers = () => {
-  return axios.get(url + "/user");
+  return axios.get(url + "/user/all");
 }
 
 UserService.getUser = (id) => {
@@ -74,6 +74,10 @@ UserService.deleteUser = (id) => {
 
 UserService.getAdvertPerUser = (id) => {
   return axios.get(url+"/advert/user/"+id)
+}
+
+UserService.updateUser = (selectedUser) => {
+  return axios.put(url+"/user/"+ selectedUser)
 }
 
 UserService.list = () => {

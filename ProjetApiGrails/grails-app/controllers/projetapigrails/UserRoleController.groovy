@@ -29,7 +29,7 @@ class UserRoleController {
     }
 
     def show(Long id) {
-        respond iUserRoleService.get(id)
+        respond iUserRoleService.get(id);
     }
 
     @Transactional

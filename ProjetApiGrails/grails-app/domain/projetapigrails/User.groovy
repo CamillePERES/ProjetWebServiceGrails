@@ -31,6 +31,12 @@ class User implements Serializable {
 
     static mapping = {
 	    password column: '`password`'
-        adverts lazy: false
+        adverts lazy : false;
+    }
+
+    //j'adapte un user en un userview
+    static UserView userToUserView (User user){
+        List<Role> roles = user.getAuthorities().asList();
+        return new UserView (user : user, roles: roles);
     }
 }

@@ -26,6 +26,11 @@ class UserController {
         respond users, model:[userCount: User.count()]
     }
 
+    def getAllUserView(Integer max){
+        params.max = Math.min(max ?: 10, 100)
+        respond (userService.getAllUserView(params), status: OK);
+    }
+
     def show(Long id) {
         User u = userService.getUserById(id);
         //respond userService.getUserById(id);
@@ -111,5 +116,14 @@ class UserController {
         userService.deleteUserById(id);
         render status: NO_CONTENT;
 
+    }
+
+    @Transactional
+    def roleOfUser(Long id){
+        if (id == null) {
+            render status: NOT_FOUND
+            return
+        }
+        respond(userService.getRoleByUser(id),status: OK);
     }
 }

@@ -43,14 +43,14 @@
 
                 <template v-slot:default="row">
                   <td class="username">
-                    {{ row.item.username }}
+                    {{ row.item.user.username }}
                   </td>
                   <td class="role">
-                    {{ row.item.role }}
+                    {{ roleToString(row.item.roles) }}
                   </td>
                   <td class="details">
                     <base-button
-                      @click="onClickDetails(row.item.id)"
+                      @click="onClickDetails(row.item.user.id)"
                       type="primary"
                       size="sm"
                       >Show details</base-button
@@ -58,7 +58,7 @@
                   </td>
                   <td class="delete">
                     <base-button
-                      @click="onClickDelete(row.item.id)"
+                      @click="onClickDelete(row.item.user.id)"
                       type="primary"
                       size="sm"
                       >Delete user</base-button
@@ -112,9 +112,17 @@
     </template>
   </modal>
 
-  <modal v-model:show="modalDetails" v-click-outside="keepPopup">
+  <modal v-model:show="modalDetails">
     <template v-slot:header>
       <h5 class="modal-title" id="exampleModalLabel">Details of the user: {{selectedUser?.username}}</h5>
+      <label for="name">
+        Username
+      </label>
+      <input :value="selectedUser?.username">
+      <label for="name">
+        Password
+      </label>
+      <input :value="''" type="password">
     </template>
     <div class="row">
     </div>
@@ -155,6 +163,9 @@
       </div>
     </div>
     <template v-slot:footer>
+      <base-button type="secondary" v-on:click="updateUser"
+        >Update</base-button
+      >
       <base-button type="secondary" @click="modalDetails = false"
         >Close</base-button
       >
@@ -282,6 +293,18 @@ export default {
     },
     keepPopup(){
       this.shouldShowModal = true;
+    },
+    roleToString(roles){
+        return roles.map(role => role.authority).join(', ');
+    },
+    async updateUser(){
+      try{
+        var response = await userService.updateUser(this.selectedUser.id)
+        console.log(response)
+      }catch (error) {
+        console.log(error);
+      }
+      this.getAllUsers();
     }
   },
 };

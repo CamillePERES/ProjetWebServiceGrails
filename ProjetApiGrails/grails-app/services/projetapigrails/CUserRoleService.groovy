@@ -30,4 +30,9 @@ class CUserRoleService {
         //sinon supprimer le role
         UserRole.criteriaFor(userId, roleId).deleteAll()
     }
+
+    def roleByUser (Long userId, Long roleId){
+
+
+    }
 }
