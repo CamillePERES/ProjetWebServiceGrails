@@ -17,11 +17,16 @@ class UserController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
-        //nbr d'utilisateurs au max je veux recup
-        //params.max = max < 0 ? 0 : max;
         params.max = Math.min(max ?: 10, 100)
+        List<User> users = User.list(params);
+        respond users, model:[userCount: User.count()]
+    }
+
+    def search(Search s) {
+        //nbr d'utilisateurs au max je veux recup
+        params.max = s.max;
         //la position dans le tableau (offset(10), je recup de l'user 10 à 20)
-        //params.offset = offset < 0 ? 0 : offset;
+        params.offset = s.offset;
         List<User> users = User.list(params);
         respond users, model:[userCount: User.count()]
     }
@@ -34,7 +39,7 @@ class UserController {
     def show(Long id) {
         User u = userService.getUserById(id);
         //respond userService.getUserById(id);
-        respond u;
+        respond User.userToUserView(u);
     }
 
     def showUserLogged(){

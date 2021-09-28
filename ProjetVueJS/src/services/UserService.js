@@ -77,7 +77,7 @@ UserService.getAdvertPerUser = (id) => {
 }
 
 UserService.updateUser = (selectedUser) => {
-  return axios.put(url+"/user/"+ selectedUser)
+  return axios.put(url+"/user/"+selectedUser.id, selectedUser)
 }
 
 UserService.list = () => {

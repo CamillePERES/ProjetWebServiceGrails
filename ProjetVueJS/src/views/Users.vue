@@ -77,7 +77,7 @@
     </div>
   </div>
 
-  <modal v-model:show="modalOpen" v-click-outside="keepPopup">
+  <modal v-model:show="modalOpen">
     <template v-slot:header>
       <h5 class="modal-title" id="exampleModalLabel">New account</h5>
     </template>
@@ -114,17 +114,30 @@
 
   <modal v-model:show="modalDetails">
     <template v-slot:header>
-      <h5 class="modal-title" id="exampleModalLabel">Details of the user: {{selectedUser?.username}}</h5>
-      <label for="name">
-        Username
-      </label>
-      <input :value="selectedUser?.username">
-      <label for="name">
-        Password
-      </label>
-      <input :value="''" type="password">
+      <h5 class="modal-title" id="exampleModalLabel">
+        Details of the user: {{ selectedUser?.user.username }}
+      </h5>
     </template>
     <div class="row">
+      <div class="col-12">
+        <label for="name"> Username </label>
+      </div>
+      <div class="col-12">
+          <base-input v-if="selectedUser" v-model="selectedUser.user.username" />
+      </div>
+      <div class="col-12">
+        <label for="name"> Role </label>
+      </div>
+      <div class="col-12">
+          <div class = "row" v-for="r in roles" :key="r.id">
+              <div class="col-3">
+                <input type="checkbox" v-bind:value="r.authority" v-model="selectedRole">
+              </div>
+              <div class="col-9">
+                {{r.authority}}
+              </div>
+          </div>
+      </div>
     </div>
     <div class="pl-lg-4">
       <div class="row">
@@ -156,39 +169,35 @@
                 </td>
               </template>
             </base-table>
-            <div v-else> There is no adverts for this user.
-            </div>
+            <div v-else>There is no adverts for this user.</div>
           </div>
         </div>
       </div>
     </div>
     <template v-slot:footer>
-      <base-button type="secondary" v-on:click="updateUser"
-        >Update</base-button
-      >
+      <base-button type="secondary" v-on:click="updateUser">Update</base-button>
       <base-button type="secondary" @click="modalDetails = false"
         >Close</base-button
       >
     </template>
   </modal>
 
-  <modal v-model:show="modalDelete" data-backdrop="static" data-keyboard="false">
-    <div class="row">
-      Do you want to delete this user?
-    </div>
+  <modal
+    v-model:show="modalDelete"
+    data-backdrop="static"
+    data-keyboard="false"
+  >
+    <div class="row">Do you want to delete this user?</div>
     <template v-slot:footer>
-      <base-button v-on:click="deleteUser" type="primary"
-        >Yes</base-button
-      >
-      <base-button type="primary" @click="modalDelete = false"
-        >No</base-button
-      >
+      <base-button v-on:click="deleteUser" type="primary">Yes</base-button>
+      <base-button type="primary" @click="modalDelete = false">No</base-button>
     </template>
   </modal>
 </template>
 
 <script>
 import userService from "../services/UserService";
+import roleService from "../services/RoleService";
 
 export default {
   name: "users",
@@ -207,12 +216,15 @@ export default {
       selectedUser: undefined,
       advertOfSelectedUser: [],
       deletedUser: undefined,
-      shouldShowModal: false
+      shouldShowModal: false,
+      roles:[], 
+      selectedRole:[]
     };
   },
   mounted: function () {
     console.log("Before HTML Page");
     this.getAllUsers();
+    this.getAllRoles();
   },
   methods: {
     async getAllUsers() {
@@ -230,9 +242,9 @@ export default {
         console.log(response);
         this.$toast.success("Success ! User created");
         this.model = {
-        username: "",
-        password: "",
-      };
+          username: "",
+          password: "",
+        };
         this.getAllUsers();
         this.modalOpen = false;
       } catch (error) {
@@ -245,6 +257,19 @@ export default {
         var response = await userService.getUser(id);
         console.log(response);
         this.selectedUser = response.data;
+        /*avant : roles[0].authority (authority:Role_Admin)
+        map met la valeur contenue dans "authority" dans un nouveau tableau
+        maintenant : ["Role_Admin] et pour l'atteindre role[0]
+        de maniere plus traditionnelle:
+        
+        let selected = [];
+
+        for(let r of this.selectedUser.roles){
+          selected.push(r.authority);
+        }*/
+
+        this.selectedRole = this.selectedUser.roles.map(r => r.authority)
+        console.log(this.selectedRole)
         this.advertPerUser();
       } catch (error) {
         console.log(error);
@@ -255,7 +280,7 @@ export default {
       if (this.selectedUser === undefined) return;
 
       try {
-        var response = await userService.getAdvertPerUser(this.selectedUser.id);
+        var response = await userService.getAdvertPerUser(this.selectedUser.user.id);
         console.log(response);
         this.advertOfSelectedUser = response.data;
       } catch (error) {
@@ -263,48 +288,59 @@ export default {
         throw error;
       }
     },
-    onClickDetails(id) {
+    async onClickDetails(id) {
       console.log(id);
       try {
-        this.showUser(id);
+        await this.showUser(id);
         this.modalDetails = true;
       } catch (error) {
         console.log(error);
       }
     },
-    async deleteUser(){
-      try{
-        var response = await userService.deleteUser(this.selectedUser.id)
-        console.log(response)
+    async deleteUser() {
+      try {
+        var response = await userService.deleteUser(this.selectedUser.user.id);
+        console.log(response);
       } catch (error) {
         console.log(error);
       }
       this.getAllUsers();
       this.modalDelete = false;
     },
-    onClickDelete(id) {
+    async onClickDelete(id) {
       console.log(id);
       try {
-        this.showUser(id);
+        await this.showUser(id);
         this.modalDelete = true;
       } catch (error) {
         console.log(error);
       }
     },
-    keepPopup(){
-      this.shouldShowModal = true;
+    roleToString(roles) {
+      return roles.map((role) => role.authority).join(", ");
     },
-    roleToString(roles){
-        return roles.map(role => role.authority).join(', ');
-    },
-    async updateUser(){
-      try{
-        var response = await userService.updateUser(this.selectedUser.id)
-        console.log(response)
-      }catch (error) {
+    async updateUser() {
+      try {
+        this.selectedUser.roles = this.selectedRole.map(str => { 
+          return {authority:str}
+         });
+         console.log(this.selectedUser)
+        var response = await userService.updateUser(this.selectedUser.user);
+        console.log(response);
+      } catch (error) {
         console.log(error);
       }
       this.getAllUsers();
+    },
+    async getAllRoles(){
+      try{
+        var response = await roleService.getAllRoles();
+        console.log(response)
+        this.roles=response.data;
+        console.log(this.roles)
+      }catch (error) {
+        console.log(error);
+      }
     }
   },
 };

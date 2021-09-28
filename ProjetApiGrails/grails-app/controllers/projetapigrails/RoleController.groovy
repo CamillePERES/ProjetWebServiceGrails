@@ -1,6 +1,8 @@
 package projetapigrails
 
 import grails.validation.ValidationException
+import org.springframework.security.access.annotation.Secured
+
 import static org.springframework.http.HttpStatus.CREATED
 import static org.springframework.http.HttpStatus.NOT_FOUND
 import static org.springframework.http.HttpStatus.NO_CONTENT
@@ -11,6 +13,7 @@ import grails.gorm.transactions.ReadOnly
 import grails.gorm.transactions.Transactional
 
 @ReadOnly
+@Secured(value=["hasRole('ROLE_ADMIN')"])
 class RoleController {
 
     RoleService roleService;

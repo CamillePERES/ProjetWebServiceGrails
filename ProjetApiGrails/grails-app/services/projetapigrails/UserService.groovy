@@ -60,7 +60,7 @@ class UserService {
         return us.getAuthorities();
     }
 
-    //map peut etre considere comme un forEach
+    //.map peut etre considere comme un forEach
     List<UserView> getAllUserView(Map map){
         List<User> users = User.list(map);
         //collect convertit en liste, peut etre considere comme un asList.
