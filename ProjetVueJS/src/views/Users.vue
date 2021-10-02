@@ -69,7 +69,12 @@
             </div>
 
             <div class="card-footer d-flex justify-content-end">
-              <base-pagination total="30"></base-pagination>
+              <base-pagination 
+                @input="onClickPagination" 
+                v-bind:total="page.total" 
+                v-bind:value="valuePagination"
+                v-bind:perPage="page.max"
+                ></base-pagination>
             </div>
           </div>
         </div>
@@ -218,7 +223,14 @@ export default {
       deletedUser: undefined,
       shouldShowModal: false,
       roles:[], 
-      selectedRole:[]
+      selectedRole:[], 
+      valuePagination: 1,
+      page:{
+        max:5,
+        offset: 0, 
+        total:0,
+        value: 0
+      }
     };
   },
   mounted: function () {
@@ -229,9 +241,12 @@ export default {
   methods: {
     async getAllUsers() {
       try {
-        var response = await userService.getAllUsers();
-        console.log(response);
-        this.users = response.data;
+        var response = await userService.pagination(this.page.max, this.page.offset);
+        console.log(response)
+        this.page.total = response.data.total;
+        console.log("TOTAL");
+        console.log(this.page.total);
+        this.users = response.data.users;
       } catch (error) {
         console.log(error);
       }
@@ -259,7 +274,8 @@ export default {
         this.selectedUser = response.data;
         /*avant : roles[0].authority (authority:Role_Admin)
         map met la valeur contenue dans "authority" dans un nouveau tableau
-        maintenant : ["Role_Admin] et pour l'atteindre role[0]
+        maintenant : ["Role_Admin"] et pour l'atteindre role[0]
+        
         de maniere plus traditionnelle:
         
         let selected = [];
@@ -301,8 +317,10 @@ export default {
       try {
         var response = await userService.deleteUser(this.selectedUser.user.id);
         console.log(response);
+        this.$toast.success("Success ! User deleted");
       } catch (error) {
         console.log(error);
+        this.$toast.error("Error ! User has not been deleted");
       }
       this.getAllUsers();
       this.modalDelete = false;
@@ -338,6 +356,15 @@ export default {
         console.log(response)
         this.roles=response.data;
         console.log(this.roles)
+      }catch (error) {
+        console.log(error);
+      }
+    }, 
+    async onClickPagination(value){
+      try{
+        this.page.offset = this.page.max * (value-1);
+        this.valuePagination = value;
+        await this.getAllUsers()
       }catch (error) {
         console.log(error);
       }

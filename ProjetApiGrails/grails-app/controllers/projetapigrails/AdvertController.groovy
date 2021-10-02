@@ -22,6 +22,13 @@ class AdvertController {
         respond Advert.list(params), model:[advertCount: Advert.count()]
     }
 
+    def search(Search s) {
+        params.max = s.max;
+        params.offset = s.offset;
+        List<Advert> adverts = advertService.getAllAdvertPagination(params);
+        respond new SearchResultAdvert(adverts: adverts, total : Advert.count());
+    }
+
     @Secured(['ROLE_ADMIN', 'ROLE_MODERATOR'])
     def show(Long id) {
         respond advertService.getAdvertById(id)
@@ -40,7 +47,7 @@ class AdvertController {
         }
 
         try {
-            advertService.addAdvertToLoggedUser(advert)
+            advertService.addAdvertToUser(advert)
         } catch (ValidationException e) {
             respond advert.errors
             return
@@ -74,11 +81,12 @@ class AdvertController {
 
     @Transactional
     def delete(Long id) {
-        if (id == null || advertService.deleteAdvertById(id) == null) {
+        if (id == null ) {
             render status: NOT_FOUND
             return
         }
 
+        advertService.deleteAdvertById(id);
         render status: NO_CONTENT
     }
 

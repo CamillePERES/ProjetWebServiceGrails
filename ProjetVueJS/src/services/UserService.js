@@ -80,6 +80,10 @@ UserService.updateUser = (selectedUser) => {
   return axios.put(url+"/user/"+selectedUser.id, selectedUser)
 }
 
+UserService.pagination = (max, offset) => {
+  return axios.post(url + "/user/search", { max: max, offset: offset })
+}
+
 UserService.list = () => {
   return axios.get(endpoint);
 }

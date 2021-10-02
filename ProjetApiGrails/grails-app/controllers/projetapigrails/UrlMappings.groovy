@@ -16,6 +16,8 @@ class UrlMappings {
         delete "/api/userRole/deleteRoleForUser/$idUser/$idRole" (controller:'UserRole',action:'deleteRoleForUser')
         get "/api/advert/user/$id" (controller:'Advert', action:'advertPerUser')
         get "/api/user/all" (controller:'User', action:'getAllUserView')
+        post "/api/user/search" (controller:'User', action:'search')
+        post "/api/advert/search" (controller:'Advert', action:'search')
 
         //URL error
         "/"(controller: 'application', action:'index')

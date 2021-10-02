@@ -8,15 +8,26 @@ import axios from 'axios';
 
 const AdvertService = {}
 
-const url = "http://localhost:8080/api/advert";
+const url = "http://localhost:8080/api";
 
-AdvertService.getAllAdvert = () => {
-
-    return axios.get(url)
+AdvertService.getAllAdverts = () => {
+    return axios.get(url+"/advert")
 }
 
 AdvertService.getAdvert = (id) => {
-    return axios.get(url + "/" + id)
+    return axios.get(url + "/advert/" + id)
+}
+
+AdvertService.createAdvert = (model) => {
+  return axios.post(url+"/advert", model)
+}
+
+AdvertService.pagination = (max, offset) => {
+  return axios.post(url+"/advert/search", {max: max, offset: offset})
+}
+
+AdvertService.deleteAdvert = (id) => {
+  return axios.delete(url+"/advert/" + id)
 }
 
 export default AdvertService;

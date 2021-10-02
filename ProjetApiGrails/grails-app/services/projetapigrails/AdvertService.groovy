@@ -16,6 +16,7 @@ class AdvertService {
         else println("User does not exist.");
     }
 
+    //le cas ou l'utilisateur peut gerer ses annonces et en creer une
     def addAdvertToLoggedUser(Advert advert) {
         User u = userService.getLoggedInstanceUser();
         if (u != null) {
@@ -33,8 +34,13 @@ class AdvertService {
         return this.getAdvertById(ad.id);
     }
 
-    List<Advert> getAllAdvert() {
+    List<Advert> getAllAdvert(){
         return Advert.getAll();
+    }
+
+    List<Advert> getAllAdvertPagination(Map map) {
+        List<Advert> adverts = Advert.list(map);
+        return adverts;
     }
 
     def deleteAdvertById(Long idAd) {

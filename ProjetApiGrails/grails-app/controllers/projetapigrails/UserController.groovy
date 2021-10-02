@@ -27,8 +27,8 @@ class UserController {
         params.max = s.max;
         //la position dans le tableau (offset(10), je recup de l'user 10 à 20)
         params.offset = s.offset;
-        List<User> users = User.list(params);
-        respond users, model:[userCount: User.count()]
+        List<UserView> users = userService.getAllUserView(params);
+        respond new SearchResultUser(users: users, total : User.count());
     }
 
     def getAllUserView(Integer max){
