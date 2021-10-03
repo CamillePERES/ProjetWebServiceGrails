@@ -1,0 +1,157 @@
+{
+	"info": {
+		"_postman_id": "29c4f4f3-a865-44e7-b2f2-d8ccd2a53d7b",
+		"name": "PictureModo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Affiche toutes les images",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/picture",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"picture"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Affiche 1 image",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/picture/76",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"picture",
+						"76"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Création d'une image",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "featuredImageFile",
+							"type": "file",
+							"src": "/C:/Users/camza/Documents/Etudes/MIAGE/RechercheAlternance/Camille_photo.png"
+						},
+						{
+							"key": "idAdvert",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/picture",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"picture"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Supprimer une image",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/picture/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"picture",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.sendRequest(",
+					"    {",
+					"        url: 'http://localhost:8080/api/login',",
+					"        method: 'POST', ",
+					"        header: 'Content-Type:application/json',",
+					"        body: {",
+					"            mode: 'raw',",
+					"            raw: JSON.stringify(",
+					"                { ",
+					"                    username: \"modo\",",
+					"                    password: \"modo\"",
+					"                }",
+					"            )",
+					"        }",
+					"    }, ",
+					"    function (err, response) {",
+					"        var result = response.json();",
+					"        var token = result.access_token;",
+					"        //console.log(token);",
+					"        pm.environment.set(\"token\", token);",
+					"    }",
+					");"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

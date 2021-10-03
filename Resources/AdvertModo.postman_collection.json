@@ -1,0 +1,69 @@
+{
+	"info": {
+		"_postman_id": "a2fb628b-e870-4565-aacc-19bb271ab7c9",
+		"name": "AdvertModo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Affiche toutes les annonces",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.sendRequest(",
+					"    {",
+					"        url: 'http://localhost:8080/api/login',",
+					"        method: 'POST', ",
+					"        header: 'Content-Type:application/json',",
+					"        body: {",
+					"            mode: 'raw',",
+					"            raw: JSON.stringify(",
+					"                { ",
+					"                    username: \"modo\",",
+					"                    password: \"modo\"",
+					"                }",
+					"            )",
+					"        }",
+					"    }, ",
+					"    function (err, response) {",
+					"        var result = response.json();",
+					"        var token = result.access_token;",
+					"        //console.log(token);",
+					"        pm.environment.set(\"token\", token);",
+					"    }",
+					");"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

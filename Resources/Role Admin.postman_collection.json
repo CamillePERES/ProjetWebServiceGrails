@@ -1,0 +1,80 @@
+{
+	"info": {
+		"_postman_id": "4355b6d2-5594-4e64-a188-399d8280dc2b",
+		"name": "Role Admin",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Affiche tous les rôles",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/role",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"role"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.sendRequest(",
+					"    {",
+					"        url: 'http://localhost:8080/api/login',",
+					"        method: 'POST', ",
+					"        header: 'Content-Type:application/json',",
+					"        body: {",
+					"            mode: 'raw',",
+					"            raw: JSON.stringify(",
+					"                { ",
+					"                    username: \"admin\",",
+					"                    password: \"admin\"",
+					"                }",
+					"            )",
+					"        }",
+					"    }, ",
+					"    function (err, response) {",
+					"        var result = response.json();",
+					"        var token = result.access_token;",
+					"        console.log(token);",
+					"        pm.environment.set(\"token\", token);",
+					"    }",
+					");"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

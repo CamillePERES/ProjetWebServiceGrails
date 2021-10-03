@@ -1,0 +1,181 @@
+{
+	"info": {
+		"_postman_id": "1e35977e-66b3-4620-960e-70665cb991be",
+		"name": "AdvertAdmin",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Affiche toutes les annonces",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/advert",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"advert"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Affiche 1 annonce",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/advert/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"advert",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Création d'une annonce",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"lili\",\r\n    \"price\": 25,\r\n    \"description\":\"description\",\r\n    \"user\":{\r\n        \"id\":5\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/advert",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"advert"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pagination annonce",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"max\":5,\r\n    \"offset\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/advert/search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"advert",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Supprimer une annonce",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/advert/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"advert",
+						"4"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.sendRequest(",
+					"    {",
+					"        url: 'http://localhost:8080/api/login',",
+					"        method: 'POST', ",
+					"        header: 'Content-Type:application/json',",
+					"        body: {",
+					"            mode: 'raw',",
+					"            raw: JSON.stringify(",
+					"                { ",
+					"                    username: \"admin\",",
+					"                    password: \"admin\"",
+					"                }",
+					"            )",
+					"        }",
+					"    }, ",
+					"    function (err, response) {",
+					"        var result = response.json();",
+					"        var token = result.access_token;",
+					"        //console.log(token);",
+					"        pm.environment.set(\"token\", token);",
+					"    }",
+					");"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

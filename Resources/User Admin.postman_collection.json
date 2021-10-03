@@ -1,0 +1,350 @@
+{
+	"info": {
+		"_postman_id": "6cb432b7-fe41-4337-aba9-9464c5ed3b65",
+		"name": "User Admin",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Affiche tous les utilisateurs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Assigne un rôle à un utilisateur",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"idUser\": 3,\r\n    \"idRole\" : 3\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/userRole",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"userRole"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Supprime un rôle à un utilisateur",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/userRole/deleteRoleForUser/8/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"userRole",
+						"deleteRoleForUser",
+						"8",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Création d'un utilisateur",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"admin\",\r\n    \"password\":\"admin2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Supprimer un UserRole",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/userRole/deleteRoleForUser/8/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"userRole",
+						"deleteRoleForUser",
+						"8",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Affiche l'utilisateur connecté",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/user/showUserLogged",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"showUserLogged"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Affiche 1 utilisateur",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/user/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Afficher les annonces d'un utilisateur",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/advert/user/5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"advert",
+						"user",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Supprimer un utilisateur",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/user/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Affiche les utilisateurs avec leur rôle",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/user/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Modifier un utilisateur",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"Toto\",\r\n    \"passsword\": \"toto\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/user/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pagination utilisateurs",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"max\":5,\r\n    \"offset\":0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/user/search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"search"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.sendRequest(",
+					"    {",
+					"        url: 'http://localhost:8080/api/login',",
+					"        method: 'POST', ",
+					"        header: 'Content-Type:application/json',",
+					"        body: {",
+					"            mode: 'raw',",
+					"            raw: JSON.stringify(",
+					"                { ",
+					"                    username: \"admin\",",
+					"                    password: \"admin\"",
+					"                }",
+					"            )",
+					"        }",
+					"    }, ",
+					"    function (err, response) {",
+					"        var result = response.json();",
+					"        var token = result.access_token;",
+					"        console.log(token);",
+					"        pm.environment.set(\"token\", token);",
+					"    }",
+					");"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
