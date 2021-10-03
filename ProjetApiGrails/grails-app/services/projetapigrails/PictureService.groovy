@@ -27,7 +27,7 @@ class PictureService {
      */
     def addPictureToAdvert(AdvertPictureUpload pic) {
         //this.addPictureToAdvertById(pic,pic.advert.id);
-        Advert ad = advertService.getAdvertById(pic.idAdvert);
+        Advert ad = advertService.getAdvertLockById(pic.idAdvert);
         if (ad != null) {
             //Constructeur Picture
             Picture picture = new Picture (
@@ -36,8 +36,10 @@ class PictureService {
                     contentType: pic.featuredImageFile.getContentType()
             )
             ad.addToPictures(picture);
-            ad.save();
+            ad.save(flush:true);
+            return picture;
         }
+        return null;
     }
 
     Picture getPicture(Picture pic) {

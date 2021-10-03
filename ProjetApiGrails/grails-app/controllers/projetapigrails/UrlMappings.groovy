@@ -18,6 +18,7 @@ class UrlMappings {
         get "/api/user/all" (controller:'User', action:'getAllUserView')
         post "/api/user/search" (controller:'User', action:'search')
         post "/api/advert/search" (controller:'Advert', action:'search')
+        put "/api/user/updateUserView" (controller:'User',action:"updateUserView")
 
         //URL error
         "/"(controller: 'application', action:'index')

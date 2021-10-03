@@ -24,16 +24,16 @@
             >
             </base-input>
 
-            <base-checkbox class="custom-control-alternative">
+            <!--<base-checkbox class="custom-control-alternative">
               <span class="text-muted">Remember me</span>
-            </base-checkbox>
+            </base-checkbox>-->
             <div class="text-center">
               <base-button v-on:click="login" type="primary" class="my-4">Sign in</base-button>
             </div>
           </form>
         </div>
       </div>
-      <div class="row mt-3">
+      <!--<div class="row mt-3">
         <div class="col-6">
           <a href="#" class="text-light"><small>Forgot password?</small></a>
         </div>
@@ -42,7 +42,7 @@
             ><small>Create new account</small></router-link
           >
         </div>
-      </div>
+      </div>-->
     </div>
   </div>
 </template>

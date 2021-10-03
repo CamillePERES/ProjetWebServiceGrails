@@ -32,7 +32,7 @@
             </div>
           </div>
         </div>
-        <!-- Navbar items -->
+        <!-- Navbar items 
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
             <router-link class="nav-link nav-link-icon" to="/">
@@ -58,7 +58,7 @@
               <span class="nav-link-inner--text">Profile</span>
             </router-link>
           </li>
-        </ul>
+        </ul>-->
       </template>
     </base-nav>
     <!-- Header -->
@@ -67,8 +67,8 @@
         <div class="header-body text-center mb-7">
           <div class="row justify-content-center">
             <div class="col-lg-5 col-md-6">
-              <h1 class="text-white">Welcome!</h1>
-              <p class="text-lead text-white">
+              <h1 class="text-black">Welcome!</h1>
+              <p class="text-lead text-black">
                 Navigate through your adverts and users easily with Lecoincoin.fr.
               </p>
             </div>
@@ -97,7 +97,7 @@
     </div>
     <footer class="py-5">
       <div class="container">
-        <div class="row align-items-center justify-content-xl-between">
+        <!--<div class="row align-items-center justify-content-xl-between">
           <div class="col-xl-6">
             <div class="copyright text-center text-xl-left text-muted">
               &copy; {{ year }}
@@ -147,7 +147,7 @@
               </li>
             </ul>
           </div>
-        </div>
+        </div>-->
       </div>
     </footer>
   </div>

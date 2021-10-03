@@ -18,6 +18,10 @@ UserService.login = (username, password, callback) => {
     .then(response => {
       console.log(response);
       const token = response.data.access_token;
+      const roles = response.data.roles; 
+      if(roles.length > 0){
+        localStorage.setItem('roles', roles[0]);
+      }
       localStorage.setItem('user-token', token);
       UserService.userLogged();
       callback(true);
@@ -28,24 +32,35 @@ UserService.login = (username, password, callback) => {
     })
 }
 
-UserService.isAuthentified = () => {
-  var auth = localStorage.getItem('user-token');
-  console.log(auth);
+UserService.isAuthentified = async () => {
+  /*var auth = localStorage.getItem('user-token');
+  var exp = localStorage.getItem('expires-in');
+  console.log(auth, exp);
   var isAuth = auth !== undefined && auth !== null;
   if (isAuth && (store.profile === null || store.profile === undefined)) {
     UserService.userLogged();
   }
-  return isAuth;
+  return isAuth;*/
+  return await UserService.userLogged();
 }
 
-UserService.userLogged = () => {
+UserService.getRole = () => {
+  return localStorage.getItem('roles')
+}
 
-  axios.get(url + "/user/showUserLogged")
-    .then(response => {
-      console.log(response);
-      store.profile = response.data;
-      profileSubject.next(store.profile)
-    })
+UserService.userLogged = async () => {
+  try{
+    const response = await axios.get(url + "/user/showUserLogged");
+    console.log(response);
+    store.profile = response.data;
+    profileSubject.next(store.profile)
+    return true;
+  }
+  catch(error){
+      console.log(error);
+      UserService.logout();
+      return false;
+  }
 }
 
 UserService.getProfile = () => {
@@ -53,7 +68,8 @@ UserService.getProfile = () => {
 }
 
 UserService.logout = () => {
-  return localStorage.removeItem('user-token')
+  localStorage.removeItem('user-token')
+  localStorage.removeItem('roles')
 }
 
 UserService.getAllUsers = () => {

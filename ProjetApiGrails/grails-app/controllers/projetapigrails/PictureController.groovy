@@ -17,10 +17,11 @@ class PictureController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
+        params.max = Math.min(max ?: 100, 300)
         respond Picture.list(params), model:[pictureCount: Picture.count()]
     }
 
+    @Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
     def show(Long id) {
         Picture p = pictureService.getPictureById(id)
         //render : renvoie un resultat
@@ -42,14 +43,14 @@ class PictureController {
         }
 
         try {
-            pictureService.addPictureToAdvert(file)
+            Picture p = pictureService.addPictureToAdvert(file)
+            respond p, status: CREATED
+            return
         } catch (ValidationException e) {
             respond file.errors
             return
         }
 
-        //code statut HTTP (201 : created)
-        render status: CREATED
     }
 
     /*@Transactional
@@ -76,11 +77,11 @@ class PictureController {
 
     @Transactional
     def delete(Long id) {
-        if (id == null || pictureService.deletePictureById(id) == null) {
+        if (id == null) {
             render status: NOT_FOUND
             return
         }
-
+        pictureService.deletePictureById(id);
         render status: NO_CONTENT
     }
 

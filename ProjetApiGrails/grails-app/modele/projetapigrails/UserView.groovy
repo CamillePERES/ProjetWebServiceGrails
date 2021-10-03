@@ -1,6 +1,8 @@
 package projetapigrails
 
-class UserView {
+import grails.validation.Validateable
+
+class UserView implements Validateable{
 
     /***
      * Ici, je recree un user qui a pour attribut :

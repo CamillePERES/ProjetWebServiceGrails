@@ -6,11 +6,12 @@
       title="Argon"
     >
       <template v-slot:links>
-        <sidebar-item
+        
+        <sidebar-item v-for="item in getItems()" v-bind:key="item.name"
           :link="{
-            name: 'Dashboard',
-            icon: 'ni ni-tv-2 text-primary',
-            path: '/dashboard',
+            name: item.name,
+            icon: item.icon,
+            path: item.path,
           }"
         />
 
@@ -27,7 +28,7 @@
             icon: 'ni ni-pin-3 text-orange',
             path: '/maps',
           }"
-        />-->
+        />
         <sidebar-item
           :link="{
             name: 'User Profile',
@@ -69,7 +70,7 @@
             icon: 'ni ni-single-02 text-yellow',
             path: '/users',
           }"
-        />
+        />-->
 
       </template>
     </side-bar>
@@ -87,6 +88,7 @@
 <script>
 import DashboardNavbar from "./DashboardNavbar.vue";
 import ContentFooter from "./ContentFooter.vue";
+import UserService from "../services/UserService";
 
 export default {
   components: {
@@ -95,7 +97,44 @@ export default {
   },
   data() {
     return {
+      profile: undefined,
       sidebarBackground: "vue", //vue|blue|orange|green|red|primary
+      itemsAdmin: [
+          {
+            name: 'Adverts',
+            icon: 'ni ni-bullet-list-67 text-red',
+            path: '/adverts',
+          },
+          {
+            name: 'Users',
+            icon: 'ni ni-single-02 text-yellow',
+            path: '/users',
+          }
+          /*{
+            name: 'User Profile',
+            icon: 'ni ni-single-02 text-yellow',
+            path: '/profile',
+          }*/
+      ],
+      itemsModo: [
+          {
+            name: 'Adverts',
+            icon: 'ni ni-bullet-list-67 text-red',
+            path: '/adverts',
+          }
+          /*{
+            name: 'User Profile',
+            icon: 'ni ni-single-02 text-yellow',
+            path: '/profile',
+          }*/
+      ],
+      itemsClient: [
+          {
+            name: 'User Profile',
+            icon: 'ni ni-single-02 text-yellow',
+            path: '/profile',
+          }
+      ]
     };
   },
   methods: {
@@ -103,6 +142,21 @@ export default {
       if (this.$sidebar.showSidebar) {
         this.$sidebar.displaySidebar(false);
       }
+    },
+    getItems() {
+      const role = UserService.getRole();
+
+      if(role === 'ROLE_ADMIN'){
+        return this.itemsAdmin;
+      }
+      else if( role === 'ROLE_MODERATOR'){
+        return this.itemsModo;
+      }
+      else if( role === 'ROLE_CLIENT'){
+        return this.itemsClient;
+      }
+
+      return [];
     },
   },
 };

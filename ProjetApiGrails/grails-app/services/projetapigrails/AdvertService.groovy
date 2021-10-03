@@ -27,7 +27,13 @@ class AdvertService {
     }
 
     Advert getAdvertById(Long idAd) {
-        return Advert.get(idAd);
+        Advert a = Advert.findById(idAd);
+        a.pictures = a.pictures;
+        return a;
+    }
+
+    Advert getAdvertLockById(Long idAd) {
+        return Advert.lock(idAd);
     }
 
     Advert getAdvert(Advert ad) {

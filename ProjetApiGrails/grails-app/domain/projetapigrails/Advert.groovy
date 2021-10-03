@@ -14,4 +14,10 @@ class Advert {
         price nullable: false, min: 0F
         pictures maxSize: 5
     }
+
+    static fetchMode = [pictures: 'eager']
+
+    static mapping = {
+        pictures lazy: false
+    }
 }

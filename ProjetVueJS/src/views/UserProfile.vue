@@ -15,7 +15,7 @@
       <div class="container-fluid d-flex align-items-center">
         <div class="row">
           <div class="col-lg-7 col-md-10">
-            <h1 class="display-2 text-white">Hello Jesse</h1>
+            <h1 class="display-2 text-white">Hello {{getUsername()}}</h1>
             <p class="text-white mt-0 mb-5">
               This is your profile page. You can see the progress you've made
               with your work and manage your projects or assigned tasks
@@ -229,6 +229,8 @@ A beautiful Dashboard for Bootstrap 4. It is Free and Open Source.</textarea
   </div>
 </template>
 <script>
+import UserService from "../services/UserService";
+
 export default {
   name: "user-profile",
   data() {
@@ -246,6 +248,27 @@ export default {
       },
     };
   },
+  created(){
+    this.subscribeProfile();
+  },
+  methods:{
+    subscribeProfile(){
+      console.log("Subscribed")
+      this.subscription = UserService.getProfile().subscribe(pr => {
+          if(pr !== undefined && pr !== null){
+            this.profile = pr;
+            console.log("Received a profil")
+          }
+          else{
+            console.log("Nothing")
+          }
+      })
+    }, 
+    getUsername(){
+      var string = this.profile.username;
+      return  string !== undefined ?  string.charAt(0).toUpperCase() + string.slice(1):'';
+    }
+  }
 };
 </script>
 <style></style>

@@ -42,6 +42,7 @@ class UserController {
         respond User.userToUserView(u);
     }
 
+    @Secured(['ROLE_ADMIN', 'ROLE_MODERATOR', 'ROLE_CLIENT'])
     def showUserLogged(){
         respond userService.getLoggedInstanceUser()
     }
@@ -82,6 +83,28 @@ class UserController {
 
         try {
             userService.updateUser(user)
+        } catch (ValidationException e) {
+            respond user.errors
+            return
+        }
+
+        respond user, [status: OK, view:"show"]
+    }
+
+    @Transactional
+    def updateUserView(UserView user) {
+        if (user == null) {
+            render status: NOT_FOUND
+            return
+        }
+        if (user.validate()) {
+            transactionStatus.setRollbackOnly()
+            respond user.errors
+            return
+        }
+
+        try {
+            userService.updateUser(user.user)
         } catch (ValidationException e) {
             respond user.errors
             return

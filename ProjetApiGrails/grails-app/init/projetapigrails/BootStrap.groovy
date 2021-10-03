@@ -27,9 +27,9 @@ class BootStrap {
                                             description: "description",
                                             price: aIdx + 300,
                                     )
-                            (1..3).each { Integer pic ->
+                           /* (1..3).each { Integer pic ->
                                 advertInstance.addToPictures(new Picture(filename: "image-$aIdx-" + pic))
-                            }
+                            }*/
                             userInstance.addToAdverts(advertInstance)
                     }
                     if (!userInstance.save())

@@ -5,7 +5,10 @@ grails.plugin.springsecurity.authority.className = 'projetapigrails.Role'
 grails.plugins.springsecurity.securityConfigType = "Annotation"
 
 grails.plugin.springsecurity.filterChain.chainMap = [
-        [pattern: '/api/**', filters:'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter'],
+        [pattern: '/api/**',
+         filters: 'JOINED_FILTERS, -exceptionTranslationFilter,' +
+                 '-authenticationProcessingFilter,-securityContextPersistenceFilter,' +
+                 '-rememberMeAuthenticationFilter'],
        // [pattern: '/**', filters:'JOINED_FILTERS,-restTokenValidationFilter,-restExceptionTranslationFilter']
 ]
 

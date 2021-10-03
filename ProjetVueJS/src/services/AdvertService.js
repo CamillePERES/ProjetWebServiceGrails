@@ -30,4 +30,8 @@ AdvertService.deleteAdvert = (id) => {
   return axios.delete(url+"/advert/" + id)
 }
 
+AdvertService.updateAdvert = (selectedAdvert) => {
+  return axios.put(url+"/advert/" + selectedAdvert.id, selectedAdvert)
+}
+
 export default AdvertService;

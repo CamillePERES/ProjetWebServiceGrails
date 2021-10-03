@@ -22,6 +22,7 @@ class AdvertController {
         respond Advert.list(params), model:[advertCount: Advert.count()]
     }
 
+    @Secured(['ROLE_ADMIN', 'ROLE_MODERATOR'])
     def search(Search s) {
         params.max = s.max;
         params.offset = s.offset;
@@ -31,7 +32,8 @@ class AdvertController {
 
     @Secured(['ROLE_ADMIN', 'ROLE_MODERATOR'])
     def show(Long id) {
-        respond advertService.getAdvertById(id)
+        Advert a = advertService.getAdvertById(id);
+        respond a;
     }
 
     @Transactional

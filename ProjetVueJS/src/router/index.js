@@ -20,11 +20,12 @@ import Register from "../views/Register.vue";
 const routes = [
   {
     path: "/",
-    redirect: "/dashboard",
+    redirect: "/profile",
     component: DashboardLayout,
-    beforeEnter: (to, from, next) => {
+    beforeEnter: async (to, from, next) => {
       console.log("guarddashboard")
-      if (!UserService.isAuthentified()) 
+      const isAuth = await UserService.isAuthentified();
+      if (!isAuth) 
         next({ name: 'login' })
       else  next()
       // if the user is not authenticated, `next` is called twice      
@@ -71,10 +72,11 @@ const routes = [
     path: "/",
     redirect: "login",
     component: AuthLayout,
-    beforeEnter: (to, from, next) => {
+    beforeEnter: async (to, from, next) => {
       console.log("guardlogin")
       console.log(to.name)
-      if (UserService.isAuthentified()) next({ name: 'dashboard' })
+      const isAuth = await UserService.isAuthentified();
+      if (isAuth) next({ name: 'dashboard' })
       // if the user is not authenticated, `next` is called twice
       else next()
     },
